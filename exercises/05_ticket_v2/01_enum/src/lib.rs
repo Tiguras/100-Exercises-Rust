@@ -10,6 +10,7 @@ struct Ticket {
     status: Status,
 }
 
+// Test change
 #[derive(Debug, PartialEq, Copy, Clone)]
 enum Status {
     ToDo,
