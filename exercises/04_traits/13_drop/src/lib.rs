@@ -2,6 +2,32 @@
 //  unless a certain operation has been performed on it.
 //  You can see the expected API in the tests below.
 
+use std::ops::Deref;
+
+struct DropBomb {
+    pub is_defused: bool,
+}
+
+impl DropBomb {
+    pub fn new() -> DropBomb {
+        DropBomb { is_defused: false }
+    }
+}
+
+impl DropBomb {
+    pub fn defuse(&mut self) {
+        self.is_defused = true;
+    }
+}
+
+impl Drop for DropBomb {
+    fn drop(&mut self) {
+        if !self.is_defused {
+            panic!("Exploded!")
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -9,7 +35,7 @@ mod tests {
     #[test]
     #[should_panic]
     fn test_drop_bomb() {
-        let bomb = DropBomb::new();
+        let _bomb = DropBomb::new();
         // The bomb should panic when dropped
     }
 
